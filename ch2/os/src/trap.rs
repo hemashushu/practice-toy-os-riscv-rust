@@ -24,6 +24,10 @@ pub fn init() {
     extern "C" {
         fn __alltraps();
     }
+
+    // 设置 trap
+    // trap 类似 "事件监听者"，当 app 调用 ecall 指令时，就会
+    // 触发 trap 然后转到 trap 处理器（handler）
     unsafe {
         stvec::write(__alltraps as usize, TrapMode::Direct);
     }
@@ -38,7 +42,8 @@ pub fn trap_handler(cx: &mut TrapContext) -> &mut TrapContext {
             cx.sepc += 4;
             cx.x[10] = syscall(cx.x[17], [cx.x[10], cx.x[11], cx.x[12]]) as usize;
         }
-        Trap::Exception(Exception::StoreFault) | Trap::Exception(Exception::StorePageFault) => {
+        Trap::Exception(Exception::StoreFault) |
+        Trap::Exception(Exception::StorePageFault) => {
             println!("[kernel] PageFault in application, kernel killed it.");
             run_next_app();
         }

@@ -1,4 +1,6 @@
 #![allow(unused)]
+
+// RustSBI 调用的模块/功能代号
 // https://github.com/riscv-non-isa/riscv-sbi-doc/blob/master/riscv-sbi.adoc#legacy-extensions-eids-0x00-0x0f
 const SBI_SET_TIMER: usize = 0;
 const SBI_CONSOLE_PUTCHAR: usize = 1;
@@ -16,36 +18,34 @@ use core::arch::asm;
 fn sbi_call(which: usize, arg0: usize, arg1: usize, arg2: usize) -> usize {
     // RustSBI 调用规范
     //
-    // a6(x16): function number
-    // a7(x17): module/extension number
-    // a0-a5(x10-x15): arguments 0..5
-    // a0(x10): return error number
-    // a1(x11): return value
+    // a6(x16):         function number
+    // a7(x17):         module/extension number
+    // a0-a5(x10-x15):  arguments 0..5
+    // a0(x10):         return error number
+    // a1(x11):         return value
     //
     // https://riscv.org/wp-content/uploads/2015/01/riscv-calling.pdf
     // https://github.com/rustsbi/sbi-spec
-    let mut ret;
+    let mut return_value;
     unsafe {
         // Rust 的内联汇编
         // https://doc.rust-lang.org/reference/inline-assembly.html
         asm!(
             "li x16, 0",
             "ecall",
-            inlateout("x10") arg0 => ret,
+            inlateout("x10") arg0 => return_value,
             in("x11") arg1,
             in("x12") arg2,
             in("x17") which,
         )
     }
-    ret
+    return_value
 }
 
-/// use sbi call to putchar in console (qemu uart handler)
 pub fn console_putchar(c: usize) {
     sbi_call(SBI_CONSOLE_PUTCHAR, c, 0, 0);
 }
 
-/// use sbi call to getchar from console (qemu uart handler)
 pub fn console_getchar() -> usize {
     sbi_call(SBI_CONSOLE_GETCHAR, 0, 0, 0)
 }

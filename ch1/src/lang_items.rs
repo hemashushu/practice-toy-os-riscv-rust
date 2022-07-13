@@ -6,7 +6,7 @@ use crate::{println, sbi::shutdown};
 fn panic(info: &PanicInfo) -> ! {
     if let Some(location) = info.location() {
         println!(
-            "[kernel] panic at [{}:{}] {}",
+            "[kernel] panic at ({}:{}) {}",
             location.file(),
             location.line(),
             info.message().unwrap()

@@ -6,16 +6,19 @@ SECTIONS
 {
     . = BASE_ADDRESS;
 
+    text = .;
     .text : {
         *(.text.entry)
         *(.text .text.*)
     }
 
+    rodata = .;
     .rodata : {
         *(.rodata .rodata.*)
         *(.srodata .srodata.*)
     }
 
+    data = .;
     .data : {
         *(.data .data.*)
         *(.sdata .sdata.*)

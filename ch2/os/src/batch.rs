@@ -3,7 +3,7 @@ use core::arch::asm;
 use lazy_static::lazy_static;
 
 use crate::{
-    stack::{KERNEL_STACK, USER_STACK},
+    stack::{KERNEL_STACK, KERNEL_STACK_SIZE, USER_STACK, USER_STACK_SIZE},
     trap::context::TrapContext,
     up::UPSafeCell,
 };
@@ -11,9 +11,9 @@ use crate::{
 const MAX_APP_NUM: usize = 16;
 
 struct AppManager {
-    num_app: usize,
-    current_app: usize,
-    app_start: [usize; MAX_APP_NUM + 1],
+    num_app: usize,                      // app 的总数量
+    current_app: usize,                  // 当前 app 的索引值
+    app_start: [usize; MAX_APP_NUM + 1], // 每个 app 的数据的起始位置
 }
 
 lazy_static! {
@@ -38,6 +38,7 @@ lazy_static! {
             // ```
             //
             // 这里的 _num_app 即数字 `5` 的指针/地址。
+            // 上面一共有 7 个 int64 数字，共占用 7 * 8 = 56 bytes
             let num_app_ptr = _num_app as usize as *const usize;
 
             let num_app = num_app_ptr.read_volatile();
@@ -68,6 +69,18 @@ impl AppManager {
                 self.app_start[i + 1]
             );
         }
+
+        println!(
+            "[kernel] kernel stack: 0x{:x} - 0x{:x}",
+            KERNEL_STACK.get_sp(),
+            KERNEL_STACK.get_sp() + KERNEL_STACK_SIZE
+        );
+
+        println!(
+            "[kernel] user stack: 0x{:x} - 0x{:x}",
+            USER_STACK.get_sp(),
+            USER_STACK.get_sp() + USER_STACK_SIZE
+        );
     }
 
     // 从内核“程序”里的数据段里加载用户应用程序的指令到指定位置
@@ -118,10 +131,17 @@ pub fn run_next_app() -> ! {
     unsafe {
         app_manager.load_app(current_app);
     }
+
+    // 加载完当前 app 之后，递增 self.current_app 的值，让下一次
+    // run_next_app() 时加载下一个 app。
+    // P.S.
+    // 函数 run_next_app() 表达的是 "run the current app and get ready for the next"
     app_manager.move_to_next_app();
+
     drop(app_manager);
     // before this we have to drop local variables related to resources manually
     // and release the resources
+
     extern "C" {
         fn __restore(cx_addr: usize);
     }

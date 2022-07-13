@@ -1,6 +1,5 @@
 #![no_std]
 #![feature(linkage)]
-// #![no_main]
 #![feature(panic_info_message)]
 
 #[macro_use]
@@ -22,6 +21,7 @@ pub extern "C" fn _start() -> ! {
     panic!("unreachable after sys_exit!");
 }
 
+/// 后备的 main() 函数，用于防止 bin 里面的程序缺少了 main() 函数。
 #[linkage = "weak"]
 #[no_mangle]
 fn main() -> i32 {
@@ -41,6 +41,7 @@ fn clear_bss() {
 pub fn write(fd: usize, buf: &[u8]) -> isize {
     sys_write(fd, buf)
 }
+
 pub fn exit(exit_code: i32) -> isize {
     sys_exit(exit_code)
 }

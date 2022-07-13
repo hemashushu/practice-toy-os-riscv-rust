@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM ubuntu:20.04
 LABEL maintainer="hemashushu" \
       version="1.0" \
       description="Development environment for developing Risc-V programs with Rust"
@@ -7,11 +7,12 @@ LABEL maintainer="hemashushu" \
 RUN set -x; \
     apt-get update \
     && apt-get install -y curl wget git \
+    && DEBIAN_FRONTEND=noninteractive TZ=Asia/Shanghai apt-get -y install tzdata \
     && apt-get install -y autoconf automake autotools-dev curl libmpc-dev libmpfr-dev libgmp-dev \
               gawk build-essential bison flex texinfo gperf libtool patchutils bc \
               zlib1g-dev libexpat-dev pkg-config libglib2.0-dev libpixman-1-dev tmux python3 python3-pip ninja-build
 
-# install Rust
+# install rust
 RUN set -x; \
     RUSTUP='/root/rustup.sh' \
     && cd $HOME \
@@ -26,9 +27,10 @@ RUN set -x; \
     && rustup target add riscv64gc-unknown-none-elf \
     && rustup component add llvm-tools-preview \
     && rustup component add rust-src \
+    && rustup component add rustfmt \
     && cargo install cargo-binutils
 
-# install Qemu
+# install qemu
 RUN set -x; \
     cd $HOME \
     && wget https://download.qemu.org/qemu-7.0.0.tar.xz \
@@ -38,3 +40,11 @@ RUN set -x; \
     && make -j$(nproc) install \
     && cd $HOME \
     && rm -rf qemu-7.0.0 qemu-7.0.0.tar.xz
+
+# install risc-v toolchains
+RUN set -x; \
+    cd /opt \
+    && wget https://github.com/riscv-collab/riscv-gnu-toolchain/releases/download/2022.06.10/riscv64-elf-ubuntu-20.04-nightly-2022.06.10-nightly.tar.gz \
+    && tar xzf riscv64-elf-ubuntu-20.04-nightly-2022.06.10-nightly.tar.gz \
+    && rm riscv64-elf-ubuntu-20.04-nightly-2022.06.10-nightly.tar.gz \
+    && echo 'export PATH=/opt/riscv/bin:$PATH' >> ~/.bashrc
