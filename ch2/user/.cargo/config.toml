@@ -1,0 +1,10 @@
+# https://doc.rust-lang.org/cargo/reference/config.html
+
+[build]
+target = "riscv64gc-unknown-none-elf"
+
+[target.riscv64gc-unknown-none-elf]
+# custom flags for `rustc
+rustflags = [
+    "-Clink-arg=-Tsrc/linker.ld"
+]

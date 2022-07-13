@@ -1,0 +1,5 @@
+#!/bin/bash
+docker run -it --rm \
+	--name rust-riscv \
+	--mount type=bind,source=$PWD,target=/mnt \
+	rust-riscv

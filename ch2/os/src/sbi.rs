@@ -26,8 +26,6 @@ fn sbi_call(which: usize, arg0: usize, arg1: usize, arg2: usize) -> usize {
     // https://github.com/rustsbi/sbi-spec
     let mut ret;
     unsafe {
-        // Rust 的内联汇编
-        // https://doc.rust-lang.org/reference/inline-assembly.html
         asm!(
             "li x16, 0",
             "ecall",

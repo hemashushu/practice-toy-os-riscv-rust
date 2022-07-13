@@ -1,0 +1,13 @@
+# https://doc.rust-lang.org/cargo/reference/config.html
+
+[build]
+target = "riscv64gc-unknown-none-elf"
+
+[target.riscv64gc-unknown-none-elf]
+# custom flags for `rustc
+# 也可以写在 build.rs
+# println!("cargo:rustc-link-arg=-Clink-arg=-Tsrc/linker.ld");
+# https://doc.rust-lang.org/cargo/reference/build-scripts.html#rustc-link-arg
+rustflags = [
+     "-Clink-arg=-Tsrc/linker.ld", "-Cforce-frame-pointers=yes"
+]
