@@ -1,6 +1,6 @@
 # Practice Toy OS - rCore
 
-本项目是教程 [《rCore-Tutorial-Book 第三版》](https://rcore-os.github.io/rCore-Tutorial-Book-v3/index.html) 的阅读笔记和保姆式详细攻略 😄，原教程旨在一步一步展示如何 **从零开始** 用 Rust 语言写一个基于 RISC-V 架构的 _类 Unix 内核_。
+本项目是教程 [《rCore-Tutorial-Book 第三版》](https://rcore-os.github.io/rCore-Tutorial-Book-v3/index.html) 的阅读笔记和保姆式详细攻略 😄，原教程讲述了如何一步一步地 **从零开始** 用 Rust 语言写一个基于 RISC-V 架构的 _类 Unix 内核_。
 
 根据原教程的讲解，我将每一章的代码都整理成一个独立的文件夹。你可以一边阅读原教程，一边用你喜欢的代码编辑器切入相应的章节文件夹，试试运行看看运行的结果。
 

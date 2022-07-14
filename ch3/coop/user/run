@@ -1,0 +1,5 @@
+#!/bin/bash
+# 通过用户态模拟器 qemu-riscv64 运行编译出的目标文件（RISCV/Linux）
+qemu-riscv64 target/riscv64gc-unknown-none-elf/release/00write_a
+qemu-riscv64 target/riscv64gc-unknown-none-elf/release/01write_b
+qemu-riscv64 target/riscv64gc-unknown-none-elf/release/02write_c
