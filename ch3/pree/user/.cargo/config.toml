@@ -1,0 +1,29 @@
+# https://doc.rust-lang.org/cargo/reference/config.html
+
+[build]
+target = "riscv64gc-unknown-none-elf"
+
+[target.riscv64gc-unknown-none-elf]
+# custom flags for `rustc`
+# 也可以写在文件 `./build.rs` 里，例如：
+#
+# ```
+# println!("cargo:rustc-link-arg=-Clink-arg=-Tsrc/linker.ld");
+# ```
+#
+# 详细见
+# https://doc.rust-lang.org/cargo/reference/build-scripts.html#rustc-link-arg
+# rustflags = [
+#    "-Clink-arg=-Tsrc/linker.ld"
+# ]
+#
+# 因为 ch3 的每个 app 的 BASE_ADDRESS 的值都不同，所以这里已经不能使用同一个 linker.ld 文件了
+# 原教程是通过一个 build.py 脚本来更改 linker.ld 的 BASE_ADDRESS 的内容再编译，然后再恢复文件内容，
+# 然后再更改再编译下一个，河马叔叔个人认为这种方法不够优雅，所以使用 `cargo rustc` 直接传入 rustc 参数。
+# 详细见 build-app 脚本。
+# 另外还可以通过 RUSTFLAGS 环境变量传递 rustc 参数，不过这样会影响到所有依赖项的编译，故不采用。
+#
+# 参考
+# https://doc.rust-lang.org/cargo/reference/build-scripts.html#rustc-link-arg
+# https://doc.rust-lang.org/cargo/reference/config.html
+# https://doc.rust-lang.org/cargo/reference/environment-variables.html

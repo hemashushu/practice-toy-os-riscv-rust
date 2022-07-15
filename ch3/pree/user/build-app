@@ -1,0 +1,30 @@
+#!/bin/bash
+# 使用 `cargo rustc` 和 -Clink-arg 指定链接文件
+# 使用 readelf -S 可以检查 .text 开始的地址是否正确
+cargo rustc --bin 00power_3 --release -- -Clink-arg=-Tsrc/linker0.ld
+rust-objcopy --strip-all \
+    target/riscv64gc-unknown-none-elf/release/00power_3 \
+    -O \
+    binary target/riscv64gc-unknown-none-elf/release/00power_3.bin
+readelf -S target/riscv64gc-unknown-none-elf/release/00power_3 | grep .text
+
+cargo rustc --bin 01power_5 --release -- -Clink-arg=-Tsrc/linker1.ld
+rust-objcopy --strip-all \
+    target/riscv64gc-unknown-none-elf/release/01power_5 \
+    -O \
+    binary target/riscv64gc-unknown-none-elf/release/01power_5.bin
+readelf -S target/riscv64gc-unknown-none-elf/release/01power_5 | grep .text
+
+cargo rustc --bin 02power_7 --release -- -Clink-arg=-Tsrc/linker2.ld
+rust-objcopy --strip-all \
+    target/riscv64gc-unknown-none-elf/release/02power_7 \
+    -O \
+    binary target/riscv64gc-unknown-none-elf/release/02power_7.bin
+readelf -S target/riscv64gc-unknown-none-elf/release/02power_7 | grep .text
+
+cargo rustc --bin 03sleep --release -- -Clink-arg=-Tsrc/linker3.ld
+rust-objcopy --strip-all \
+    target/riscv64gc-unknown-none-elf/release/03sleep \
+    -O \
+    binary target/riscv64gc-unknown-none-elf/release/03sleep.bin
+readelf -S target/riscv64gc-unknown-none-elf/release/03sleep | grep .text
