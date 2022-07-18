@@ -21,13 +21,14 @@ fn main() -> i32 {
         }
 
         println!("App b");
-        println!("----------");
+
         // 打印各个段的起始和终止地址
-        println!(".text start: 0x{:x}", text as usize);
+        println!("----------");
+        println!(".text start:   0x{:x}", text as usize);
         println!(".rodata start: 0x{:x}", rodata as usize);
-        println!(".data start: 0x{:x}", data as usize);
-        println!(".bss start: 0x{:x}", start_bss as usize);
-        println!(".bss end: 0x{:x}", end_bss as usize);
+        println!(".data start:   0x{:x}", data as usize);
+        println!(".bss start:    0x{:x}", start_bss as usize);
+        println!(".bss end:      0x{:x}", end_bss as usize);
         println!("----------");
 
     for i in 0..HEIGHT {

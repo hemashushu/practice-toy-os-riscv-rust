@@ -1,7 +1,8 @@
 #!/bin/bash
 # 通过用户态模拟器 qemu-riscv64 运行编译出的目标文件（RISCV/Linux）
-# 最后一个程序不会停止，因为调用了自定义的 yield 函数。
 qemu-riscv64 target/riscv64gc-unknown-none-elf/release/00power_3
 qemu-riscv64 target/riscv64gc-unknown-none-elf/release/01power_5
 qemu-riscv64 target/riscv64gc-unknown-none-elf/release/02power_7
-#qemu-riscv64 target/riscv64gc-unknown-none-elf/release/03sleep
+# qemu-riscv64 target/riscv64gc-unknown-none-elf/release/03sleep
+qemu-riscv64 target/riscv64gc-unknown-none-elf/release/04load_fault
+qemu-riscv64 target/riscv64gc-unknown-none-elf/release/05store_fault

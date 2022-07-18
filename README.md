@@ -94,3 +94,34 @@ docker run -it --rm \
 ### Chapter 3
 
 TODO
+
+
+## 参考链接
+
+- 《Writing an OS in Rust》
+  Blog OS
+  https://os.phil-opp.com/
+  https://github.com/rustcc/writing-an-os-in-rust
+
+- 
+  https://osblog.stephenmarz.com/index.html
+
+- 《Rust Raspberry Pi OS》
+  https://github.com/rust-embedded/rust-raspberrypi-OS-tutorials
+
+- 《OS from scratch》
+  C 语言, x86
+  https://github.com/cfenollosa/os-tutorial
+  https://www.cs.bham.ac.uk/~exr/lectures/opsys/10_11/lectures/os-dev.pdf
+  https://littleosbook.github.io/
+
+- 《Xv6 - Risc-V》
+  C 语言
+  https://pdos.csail.mit.edu/6.828/2021/xv6.html
+ 
+- 《rCore》
+  http://rcore-os.cn/rCore-Tutorial-Book-v3/index.html
+  https://github.com/skyzh/core-os-riscv.git
+
+- OSDev.org
+  https://wiki.osdev.org/Main_Page
