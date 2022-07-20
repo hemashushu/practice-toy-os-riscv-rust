@@ -22,20 +22,9 @@ impl TaskContext {
         }
     }
 
-    // /// set task context {__restore ASM funciton, kernel stack, s_0..12 }
-    // pub fn goto_restore(kstack_ptr: usize) -> Self {
-    //     extern "C" {
-    //         fn __restore();
-    //     }
-    //     Self {
-    //         ra: __restore as usize,
-    //         sp: kstack_ptr,
-    //         s: [0; 12],
-    //     }
-    // }
-
     /// set Task Context{__restore ASM funciton: trap_return, sp: kstack_ptr, s: s_0..12}
     pub fn goto_trap_return(kstack_ptr: usize) -> Self {
+        // 参数 kstack_ptr 的值为 kernel stack top
         Self {
             ra: trap_return as usize,
             sp: kstack_ptr,

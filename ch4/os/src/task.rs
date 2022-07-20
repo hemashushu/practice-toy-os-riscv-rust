@@ -38,6 +38,7 @@ pub struct TaskControlBlock {
 }
 
 impl TaskControlBlock {
+
     pub fn get_trap_cx(&self) -> &'static mut TrapContext {
         self.trap_cx_ppn.get_mut()
     }
@@ -51,6 +52,16 @@ impl TaskControlBlock {
         println!("------ mapping app {}", app_id);
         let (memory_set, user_sp, entry_point) = MemorySet::from_elf(elf_data);
 
+        // 应用程序看到的内存地址空间
+        // application address space (high)
+        // |--------------| 2^64
+        // |  trampoline  | 4 KB
+        // |--------------|
+        // | trap context | 4 KB
+        // |--------------|
+        // |              |
+        //
+        // trap context 独占一个 page
         let trap_cx_ppn = memory_set
             .translate(VirtAddr::from(TRAP_CONTEXT).into())
             .unwrap()
@@ -76,6 +87,8 @@ impl TaskControlBlock {
 
         // prepare TrapContext in user space
         let trap_cx = task_control_block.get_trap_cx();
+
+        // Trap Context 也被储存进一个 page 里，所以可以这样赋值
         *trap_cx = TrapContext::app_init_context(
             entry_point,
             user_sp,

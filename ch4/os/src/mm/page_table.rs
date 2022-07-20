@@ -82,23 +82,26 @@ impl PageTableEntry {
 // 001 | 10 bits | 44 bits | 10 bits |
 //     |-----------------------------|
 //
+// 注意：
+// 一个页表的大小（4 KB）刚好也是一个页的大小
+//
 // 多级页表
 //
 // Virtual Address
 //
-// |---------------------------------------------|
-// |                  39 bits                    |
-// | 9 bits | 9 bits | 9 bits | 9 bits | 12 bits |
-// | ext    | L2     | L1     | L0     | Offset  |
-// |--------|--------|--------|--------|---------|
-//            |        |          |           |
-//   /--------/     /--/          |           |
-//   |              |             |           \--------\
-//   |    |-----|   |   |-----|   |   |-----|          |
-//   |--> |     |-\ \-> |     |-\ \-> |     | --> PPN  Offset
-//        |     | |     |     | |     |     |     ===========
-// satp ->|-----| \---> |-----| \---> |-----|     Physical Addr
-//         L2 table      L1 table      L0 table
+// |-------------------------------------------------|
+// |                  39 bits                        |
+// | 9 bits | 9 bits  | 9 bits    | 9 bits | 12 bits |
+// | ext    | L2      | L1        | L0     | Offset  |
+// |--------|---------|-----------|--------|---------|
+//            |        |                |          |
+//   /--------/        |                |          \---------\
+//   |                 |                |                    |
+//   |    |-----|      |   |-----|      |   |-----|          |
+//   |--> |     |-\    \-> |     |-\    \-> |     | --> PPN  Offset
+//        |     | |        |     | |        |     |     ===========
+// satp ->|-----| \------> |-----| \------> |-----|     Physical Addr
+//         L2 table         L1 table         L0 table
 //
 // http://rcore-os.cn/rCore-Tutorial-Book-v3/chapter4/3sv39-implementation-1.html#id7
 //
@@ -120,9 +123,8 @@ pub struct PageTable {
     root_ppn: PhysPageNum,
 
     // 注意
-    // 这里储存的不是 PageTableEntry，而是直接储存
-    // PageTableEntry 对于的 PageTable 了
-    // 一个 PageTable 最多由 512 个 Entry，所以这里 frames 也会有 512 项
+    // 这里储存的不是 PageTableEntry，而是下级 PageTable。
+    // 一个 PageTable 最多由 512 个 Entry，所以这里 frames 也会有 512 项。
     frames: Vec<FrameTracker>,
 }
 

@@ -1,10 +1,31 @@
-# Practice Toy OS - rCore
+<p align="center" style="font-size:2em;">Practice Toy OS - rCore</p>
 
 本项目是教程 [《rCore-Tutorial-Book 第三版》](https://rcore-os.github.io/rCore-Tutorial-Book-v3/index.html) 的阅读笔记和保姆式详细攻略 😄，原教程讲述了如何一步一步地 **从零开始** 用 Rust 语言写一个基于 RISC-V 架构的 _类 Unix 内核_。
 
 根据原教程的讲解，我将每一章的代码都整理成一个独立的文件夹。你可以一边阅读原教程，一边用你喜欢的代码编辑器切入相应的章节文件夹，试试运行看看运行的结果。
 
 实际上官方也有每个章节的代码 [rCore-Tutorial-v3](https://github.com/rcore-os/rCore-Tutorial-v3)，不过该代码仓库将每个章节的代码组织为 Git 的分支，有时需要同时打开多个章节的代码对比查阅时会稍显不便。另外我也在原来的代码基础上 **添加了些许额外的注释，以及一些扩展资料的链接**。
+
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
+- [开发环境的搭建和配置](#开发环境的搭建和配置)
+  - [在当前系统里配置开发环境](#在当前系统里配置开发环境)
+  - [使用 Docker 搭建开发环境](#使用-docker-搭建开发环境)
+- [RISC-V 指令和裸机汇编程序](#risc-v-指令和裸机汇编程序)
+  - [汇编](#汇编)
+  - [链接](#链接)
+  - [运行](#运行)
+  - [调试](#调试)
+- [编译和运行各章的代码](#编译和运行各章的代码)
+  - [Chapter 1](#chapter-1)
+  - [Chapter 2](#chapter-2)
+  - [Chapter 3](#chapter-3)
+  - [Chapter 4](#chapter-4)
+- [参考链接](#参考链接)
+
+<!-- /code_chunk_output -->
 
 ## 开发环境的搭建和配置
 
@@ -13,19 +34,19 @@
 1. Rust
 2. Rust 的 `riscv64gc-unknown-none-elf` 编译目标
 3. Qemu 7.0
-4. Risc-v toolchains
+4. RISC-V toolchains
 
 如果不想在当前系统上安装以上工具，也可以在 Docker 里搭建该开发环境。在 Docker 里编译和运行所有程序，教程学习完毕之后把该 Docker Image 删掉即可，对于当前系统来说就像什么事都没发生过一样。
 
-### 在当前系统配置开发环境
+### 在当前系统里配置开发环境
 
 操作系统建议使用 Arch Linux，该发行版的软件包数量巨多而且版本都是最新的，上面提到的工具直接用系统包管理工具安装即可，省去很多麻烦。
 
 如果要在其他发行版或者系统安装，则 [根据教程的指引](https://rcore-os.github.io/rCore-Tutorial-Book-v3/chapter0/5setup-devel-env.html) 下载和安装各个工具即可。
 
-需注意 Risc-v toolchains 的最新版本的仓库地址是 <https://github.com/riscv-collab/riscv-gnu-toolchain>，如果不需要调试程序，不安装这个工具链也可以。
+需注意 RISC-V toolchains 的最新版本的仓库地址是 <https://github.com/riscv-collab/riscv-gnu-toolchain>，如果不需要调试程序，不安装这个工具链也可以。
 
-### 在 Docker 里配置开发环境
+### 使用 Docker 搭建开发环境
 
 准确来说是构建一个 Docker Image，然后 `run` 这个 Image 并在里面完成教程所述的所有程序的开发和运行。如果你不想更改当前的系统，或者安装一些平时用不着的程序，推荐采用 Docker 搭建开发环境这种方式（前提是你得接受在系统里安装 Docker 或者 Podman 😁）。
 
@@ -39,7 +60,7 @@
 
 检查是否存在一项 `rust-riscv`，若存在则表示构建成功。
 
-因为 Risc-v toolchains 的体积较大，所以 `mini` 版默认不安装这个工具链，如果需要安装可以在 Image 构建完成之后，进入该 Container 然后使用下面的命令手动安装：
+因为 RISC-V toolchains 的体积较大，所以 `mini` 版默认不安装这个工具链，如果需要安装可以在 Image 构建完成之后，进入该 Container 然后使用下面的命令手动安装：
 
 ```bash
 $ cd /opt
@@ -290,7 +311,7 @@ docker run -it --rm \
   https://www.cs.bham.ac.uk/~exr/lectures/opsys/10_11/lectures/os-dev.pdf
   https://littleosbook.github.io/
 
-- 《Xv6 - Risc-V》
+- 《Xv6 - RISC-V》
   C 语言
   https://pdos.csail.mit.edu/6.828/2021/xv6.html
 

@@ -17,7 +17,7 @@ use super::{
 /// 一段**连续**的 Virtual Page
 pub struct MapArea {
     vpn_range: VPNRange,                              // VPN 的开始和结束值
-    data_frames: BTreeMap<VirtPageNum, FrameTracker>, // VPN 对应的最终的物理 Page
+    data_frames: BTreeMap<VirtPageNum, FrameTracker>, // VPN 对应的最终的物理 Page，仅当 MapType 为 Framed 时才使用
     map_type: MapType,                                // 内存的映射方式
     map_perm: MapPermission,                          // 该段内存的访问权限
 }
@@ -63,6 +63,10 @@ impl MapArea {
     }
 
     pub fn map_one(&mut self, page_table: &mut PageTable, vpn: VirtPageNum) -> usize { // 新增，返回物理页面地址
+
+        // 注：
+        // 这里最好检查以下参数 vpn 是否属于 self.vpn_range 之内。
+
         let ppn: PhysPageNum;
         match self.map_type {
             MapType::Identical => {
@@ -112,6 +116,8 @@ impl MapArea {
 
     /// data: start-aligned but maybe with shorter length
     /// assume that all frames were cleared before
+    ///
+    /// 将参数 `data` 的数据复制到 `self.vpn_range`。
     pub fn copy_data(&mut self, page_table: &mut PageTable, data: &[u8]) {
         assert_eq!(self.map_type, MapType::Framed);
         let mut start: usize = 0;
@@ -357,6 +363,8 @@ impl MemorySet {
             let ph = elf.program_header(i).unwrap();
 
             if ph.get_type().unwrap() == xmas_elf::program::Type::Load {
+                // 对于非 Type::Load 类型的 program header 不予理睬
+
                 let start_va: VirtAddr = (ph.virtual_addr() as usize).into();
                 let end_va: VirtAddr = ((ph.virtual_addr() + ph.mem_size()) as usize).into();
 

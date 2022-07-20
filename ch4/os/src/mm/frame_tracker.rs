@@ -3,7 +3,7 @@ use super::{address::PhysPageNum, frame_allocator::frame_dealloc};
 use core::fmt::{self, Debug, Formatter};
 
 /// manage a frame which has the same lifecycle as the tracker
-/// 一个 Frame 大小跟一个 Page（4 KB）相同，也跟一个 PageTable 的大小相同
+/// 一个 frame 大小跟一个 page（4 KB）相同，也跟一个 page table （4 KB）相同
 pub struct FrameTracker {
     pub ppn: PhysPageNum,
 }

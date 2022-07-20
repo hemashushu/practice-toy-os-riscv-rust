@@ -16,7 +16,7 @@ trait FrameAllocator {
 pub struct StackFrameAllocator {
     current: usize,       // 空闲空间的开始页面号 ---\\
     end: usize,           // 空闲空间的结束页面号 ---//
-    recycled: Vec<usize>, // 回收的页面
+    recycled: Vec<usize>, // 已回收的页面
 }
 
 impl StackFrameAllocator {

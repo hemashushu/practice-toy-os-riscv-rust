@@ -77,6 +77,7 @@ impl From<usize> for VirtAddr {
         Self(v & ((1 << VA_WIDTH_SV39) - 1))
     }
 }
+
 impl From<usize> for VirtPageNum {
     fn from(v: usize) -> Self {
         Self(v & ((1 << VPN_WIDTH_SV39) - 1))
@@ -184,6 +185,8 @@ impl From<PhysPageNum> for PhysAddr {
 // VirtPageNum 实用方法
 
 impl VirtPageNum {
+    // virtual address 的数据结构
+    //
     // |----------------------------------------------|
     // |              virtual address                 |
     // |----------------------------------------------|
@@ -208,7 +211,10 @@ impl VirtPageNum {
 
 // PhysPageNum 实用方法
 //
-// 一个物理地址对应着一个 Page
+// 注：
+// 一个物理地址通常对应着一个 Page 或者一个 PageTable
+// 或者说，一个 page 或者 page table 通常用
+// 一个 physical page number 来表示
 impl PhysPageNum {
     // 一个 Page 刚好也是一个 PageTable，里面有 512 个 PageTableEntry
     pub fn get_pte_array(&self) -> &'static mut [PageTableEntry] {
@@ -236,8 +242,8 @@ pub struct SimpleRange<T>
 where
     T: StepByOne + Copy + PartialEq + PartialOrd + Debug,
 {
-    l: T, // 开始页面号
-    r: T, // 结束页面号
+    l: T, // 开始页面号（索引值包括）
+    r: T, // 结束页面号（索引值不包括）
 }
 
 impl<T> SimpleRange<T>
@@ -309,6 +315,7 @@ where
 /// 用于描述一段**连续**的 Virtual Page Number
 pub type VPNRange = SimpleRange<VirtPageNum>;
 
+/// 用于构建 SimpleRange 的迭代器（Iterator）
 pub trait StepByOne {
     fn step(&mut self);
 }
