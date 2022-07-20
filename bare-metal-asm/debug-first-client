@@ -1,0 +1,4 @@
+#!/bin/bash
+riscv64-elf-gdb \
+    -ex 'set arch riscv:rv64' \
+    -ex 'target remote localhost:1234'

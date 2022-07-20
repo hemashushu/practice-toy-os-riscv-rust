@@ -3,6 +3,9 @@
 qemu-riscv64 target/riscv64gc-unknown-none-elf/release/00power_3
 qemu-riscv64 target/riscv64gc-unknown-none-elf/release/01power_5
 qemu-riscv64 target/riscv64gc-unknown-none-elf/release/02power_7
+
+# qemu 不支持 yield syscall
 # qemu-riscv64 target/riscv64gc-unknown-none-elf/release/03sleep
+
 qemu-riscv64 target/riscv64gc-unknown-none-elf/release/04load_fault
 qemu-riscv64 target/riscv64gc-unknown-none-elf/release/05store_fault

@@ -1,6 +1,2 @@
 #!/bin/bash
 cargo build --release
-# cargo rustc --bin 00power_3 --release -- -Clink-arg=-Tsrc/linker0.ld
-# cargo rustc --bin 01power_5 --release -- -Clink-arg=-Tsrc/linker1.ld
-# cargo rustc --bin 02power_7 --release -- -Clink-arg=-Tsrc/linker2.ld
-# cargo rustc --bin 03sleep --release -- -Clink-arg=-Tsrc/linker3.ld
