@@ -1,0 +1,4 @@
+{
+    // 用于避免因 `#![no_std]` 引起 rust-analyzer 的错误提示 "can't find crate for `test`"
+    "rust-analyzer.checkOnSave.allTargets": false,
+}

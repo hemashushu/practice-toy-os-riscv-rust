@@ -1,4 +1,6 @@
-<p align="center" style="font-size:2em;">Practice Toy OS - rCore</p>
+<div align="center">
+<h1>Practice Toy OS - rCore</h1>
+</div>
 
 本项目是教程 [《rCore-Tutorial-Book 第三版》](https://rcore-os.github.io/rCore-Tutorial-Book-v3/index.html) 的阅读笔记和保姆式详细攻略 😄，原教程讲述了如何一步一步地 **从零开始** 用 Rust 语言写一个基于 RISC-V 架构的 _类 Unix 内核_。
 
@@ -244,6 +246,16 @@ $ riscv64-elf-gdb
 "Hello world!" 程序的代码在 [bare-metal-asm/hello.s](bare-metal-asm/hello.s)。
 
 ## 编译和运行各章的代码
+
+<svg viewBox="22.701 14.756 80.591 76.901" xmlns="http://www.w3.org/2000/svg" width="36px" height="36px">
+  <defs>
+    <linearGradient gradientUnits="userSpaceOnUse" x1="63.422" y1="25.256" x2="63.422" y2="76.419" id="gradient-0" gradientTransform="matrix(-0.350927, 0.936403, -1.120365, -0.419869, 158.809846, -2.529498)">
+      <stop offset="0" style="stop-color: rgb(156, 81, 15);"/>
+      <stop offset="1" style="stop-color: rgba(229, 107, 0, 1)"/>
+    </linearGradient>
+  </defs>
+  <path d="M 63.422 25.256 L 69.228 43.346 L 89.577 35.904 L 76.468 51.021 L 96.036 59.831 L 73.884 60.591 L 77.937 79.019 L 63.422 64.851 L 48.907 79.019 L 52.96 60.591 L 30.808 59.831 L 50.376 51.021 L 37.267 35.904 L 57.616 43.346 Z" style="stroke: rgb(0, 0, 0); fill: url(#gradient-0);" bx:shape="star 63.422 53.538 33.453 28.282 0.4 7 1@ab2a5f8b"/>
+</svg>
 
 > 以下内容请按顺序阅读和运行，即必须先完成第一章的每一个步骤，才能进入第二章，如此类推。
 
