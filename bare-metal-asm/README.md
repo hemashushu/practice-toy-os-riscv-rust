@@ -168,7 +168,7 @@ $ riscv64-elf-gdb
 
 ## 附录：GDB 常用命令
 
-下面表格来自 [《Linux C编程一站式学习》](https://akaedu.github.io/book/ch10s01.html)，需注意下面很多命令仅当指定源码时才有效（比如调试由 C 语言编译而得的程序时），
+需注意下面部分命令仅当指定源码时才有效（比如调试由 C 语言编译而得的程序，如果直接由汇编源码汇编出目标文件，需要加上 `--gstabs` 参数，比如：`as --gstabs hello.s -o hello.o`）
 
 gdb基本命令 1
 
@@ -211,3 +211,5 @@ gdb基本命令3
 | watch | 设置观察点 |
 | info（或i） watchpoints | 查看当前设置了哪些观察点 |
 | x | 从某个位置开始打印存储单元的内容，全部当成字节来看，而不区分哪个字节属于哪个变量 |
+
+上面表格出自 [《Linux C编程一站式学习》](https://akaedu.github.io/book/ch10s01.html)

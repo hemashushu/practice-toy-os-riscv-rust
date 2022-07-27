@@ -1,21 +1,21 @@
 #!/bin/bash
-# 使用 `cargo rustc` 和 -Clink-arg 指定链接文件
+# 使用 `cargo rustc` 和 -C link-arg 指定链接文件
 # 使用 readelf -S 可以检查 .text 开始的地址是否正确
-cargo rustc --bin 00write_a --release -- -Clink-arg=-Tsrc/linker0.ld
+cargo rustc --bin 00write_a --release -- -C link-arg=-Tsrc/linker0.ld
 rust-objcopy --strip-all \
     target/riscv64gc-unknown-none-elf/release/00write_a \
     -O \
     binary target/riscv64gc-unknown-none-elf/release/00write_a.bin
 readelf -S target/riscv64gc-unknown-none-elf/release/00write_a | grep .text
 
-cargo rustc --bin 01write_b --release -- -Clink-arg=-Tsrc/linker1.ld
+cargo rustc --bin 01write_b --release -- -C link-arg=-Tsrc/linker1.ld
 rust-objcopy --strip-all \
     target/riscv64gc-unknown-none-elf/release/01write_b \
     -O \
     binary target/riscv64gc-unknown-none-elf/release/01write_b.bin
 readelf -S target/riscv64gc-unknown-none-elf/release/01write_b | grep .text
 
-cargo rustc --bin 02write_c --release -- -Clink-arg=-Tsrc/linker2.ld
+cargo rustc --bin 02write_c --release -- -C link-arg=-Tsrc/linker2.ld
 rust-objcopy --strip-all \
     target/riscv64gc-unknown-none-elf/release/02write_c \
     -O \

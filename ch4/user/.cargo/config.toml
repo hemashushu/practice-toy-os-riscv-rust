@@ -5,7 +5,8 @@ target = "riscv64gc-unknown-none-elf"
 
 [target.riscv64gc-unknown-none-elf]
 rustflags = [
-   "-Clink-arg=-Tsrc/linker.ld"
+   #"-Clink-arg=-Tsrc/linker.ld"
+    "-C", "link-arg=-Tsrc/linker.ld"
 ]
 
 # ch4 引入地址空间之后，又可以使用固定的 linker.ld 了。

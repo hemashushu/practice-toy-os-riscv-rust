@@ -93,7 +93,7 @@ _start:
 
 简单讲解：`.globl _start` 定义个全局 `符号`，类比 "一个库的导出函数（的名称），可供外部查看和调用"，`_start` 定义一个位置，类比 `自动行号`。最后 3 行是 RISC-V 指令，作用看句末的注释。
 
-关于 RISC-V ISA 的基本知识，可以参考 [《RISC-V 手册》](http://riscvbook.com/chinese/RISC-V-Reader-Chinese-v2p1.pdf)，有关指令更详细的资料可以参考 [《RISC-V 规范》](https://riscv.org/technical/specifications/)。
+关于 RISC-V ISA 的基本知识，可以参考 [《RISC-V 手册》](http://riscvbook.com/chinese/RISC-V-Reader-Chinese-v2p1.pdf)，有关指令更详细的资料可以参考 [《RISC-V 规范》](https://riscv.org/technical/specifications/) 以及 [《RISC-V Assembly Programmer's Manual》](https://github.com/riscv-non-isa/riscv-asm-manual/blob/master/riscv-asm.md)。
 
 下面命令将汇编源码汇编（动词）为目标文件：
 
@@ -245,17 +245,19 @@ $ riscv64-elf-gdb
 
 "Hello world!" 程序的代码在 [bare-metal-asm/hello.s](bare-metal-asm/hello.s)。
 
-## 编译和运行各章的代码
+### 深入了解 RISC-V 指令集及工作原理
 
-<svg viewBox="22.701 14.756 80.591 76.901" xmlns="http://www.w3.org/2000/svg" width="36px" height="36px">
-  <defs>
-    <linearGradient gradientUnits="userSpaceOnUse" x1="63.422" y1="25.256" x2="63.422" y2="76.419" id="gradient-0" gradientTransform="matrix(-0.350927, 0.936403, -1.120365, -0.419869, 158.809846, -2.529498)">
-      <stop offset="0" style="stop-color: rgb(156, 81, 15);"/>
-      <stop offset="1" style="stop-color: rgba(229, 107, 0, 1)"/>
-    </linearGradient>
-  </defs>
-  <path d="M 63.422 25.256 L 69.228 43.346 L 89.577 35.904 L 76.468 51.021 L 96.036 59.831 L 73.884 60.591 L 77.937 79.019 L 63.422 64.851 L 48.907 79.019 L 52.96 60.591 L 30.808 59.831 L 50.376 51.021 L 37.267 35.904 L 57.616 43.346 Z" style="stroke: rgb(0, 0, 0); fill: url(#gradient-0);" bx:shape="star 63.422 53.538 33.453 28.282 0.4 7 1@ab2a5f8b"/>
-</svg>
+可以借助图形化的 RISC-V CPU 模拟工具用于学习和实践 RISC-V 的指令集，下面推荐两个：
+
+- QtRVSim
+  https://github.com/cvut/qtrvsim
+
+- RARS
+  https://github.com/TheThirdOne/rars
+
+比起 QEMU，它们能够比较直观地显示程序、内存、寄存器的内容，甚至能够显示 RTL 级（寄存器级，可以简单地认为是数字电子电路） CPU 状态。有直观的工具辅助学习，往往可以事半功倍。
+
+## 编译和运行各章的代码
 
 > 以下内容请按顺序阅读和运行，即必须先完成第一章的每一个步骤，才能进入第二章，如此类推。
 

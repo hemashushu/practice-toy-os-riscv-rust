@@ -14,5 +14,6 @@ target = "riscv64gc-unknown-none-elf"
 # 详细见
 # https://doc.rust-lang.org/cargo/reference/build-scripts.html#rustc-link-arg
 rustflags = [
-    "-Clink-arg=-Tsrc/linker.ld"
+    #"-Clink-arg=-Tsrc/linker.ld"
+    "-C", "link-arg=-Tsrc/linker.ld"
 ]
