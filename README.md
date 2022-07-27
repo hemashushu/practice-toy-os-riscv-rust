@@ -1,5 +1,5 @@
 <div align="center">
-<h1>Practice Toy OS - rCore</h1>
+<h1>Practice Toy OS - RISC-V - Rust</h1>
 </div>
 
 本项目是教程 [《rCore-Tutorial-Book 第三版》](https://rcore-os.github.io/rCore-Tutorial-Book-v3/index.html) 的阅读笔记，同时也是一份攻略 😄，原教程讲述了如何一步一步地 **从零开始** 用 Rust 语言写一个基于 RISC-V 架构的 _类 Unix 内核_。
@@ -26,7 +26,9 @@
   - [Chapter 2](#chapter-2)
   - [Chapter 3](#chapter-3)
   - [Chapter 4](#chapter-4)
-- [参考链接](#参考链接)
+- [类似项目](#类似项目)
+- [教程网址](#教程网址)
+- [参考资料](#参考资料)
 
 <!-- /code_chunk_output -->
 
@@ -335,32 +337,35 @@ docker run -it --rm \
 
 ::TODO
 
-## 参考链接
+## 类似项目
 
-- 《Writing an OS in Rust》
-  Blog OS
+- Writing an OS in Rust
   https://os.phil-opp.com/
+
+  中文翻译
   https://github.com/rustcc/writing-an-os-in-rust
 
--
+- The Adventures of OS: Making a RISC-V Operating System using Rust
   https://osblog.stephenmarz.com/index.html
 
-- 《Rust Raspberry Pi OS》
+- Operating System development tutorials in Rust on the Raspberry Pi
   https://github.com/rust-embedded/rust-raspberrypi-OS-tutorials
 
-- 《OS from scratch》
-  C 语言, x86
-  https://github.com/cfenollosa/os-tutorial
-  https://www.cs.bham.ac.uk/~exr/lectures/opsys/10_11/lectures/os-dev.pdf
-  https://littleosbook.github.io/
+- 使用 C 语言实现
+  - https://github.com/cfenollosa/os-tutorial
+  - https://www.cs.bham.ac.uk/~exr/lectures/opsys/10_11/lectures/os-dev.pdf
+  - https://littleosbook.github.io/
+  - https://pdos.csail.mit.edu/6.828/2021/xv6.html
 
-- 《Xv6 - RISC-V》
-  C 语言
-  https://pdos.csail.mit.edu/6.828/2021/xv6.html
+## 教程网址
 
-- 《rCore》
-  http://rcore-os.cn/rCore-Tutorial-Book-v3/index.html
-  https://github.com/skyzh/core-os-riscv.git
+- rCore-Tutorial-v3
+  https://github.com/rcore-os/rCore-Tutorial-v3
+
+- rCore-Tutorial-Book-v3
+  https://github.com/rcore-os/rCore-Tutorial-Book-v3
+
+## 参考资料
 
 - OSDev.org
   https://wiki.osdev.org/Main_Page
