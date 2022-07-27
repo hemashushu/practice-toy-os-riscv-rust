@@ -2,7 +2,7 @@
 <h1>Practice Toy OS - rCore</h1>
 </div>
 
-本项目是教程 [《rCore-Tutorial-Book 第三版》](https://rcore-os.github.io/rCore-Tutorial-Book-v3/index.html) 的阅读笔记和保姆式详细攻略 😄，原教程讲述了如何一步一步地 **从零开始** 用 Rust 语言写一个基于 RISC-V 架构的 _类 Unix 内核_。
+本项目是教程 [《rCore-Tutorial-Book 第三版》](https://rcore-os.github.io/rCore-Tutorial-Book-v3/index.html) 的阅读笔记，同时也是一份攻略 😄，原教程讲述了如何一步一步地 **从零开始** 用 Rust 语言写一个基于 RISC-V 架构的 _类 Unix 内核_。
 
 根据原教程的讲解，我将每一章的代码都整理成一个独立的文件夹。你可以一边阅读原教程，一边用你喜欢的代码编辑器切入相应的章节文件夹，试试运行看看运行的结果。
 
@@ -20,6 +20,7 @@
   - [链接](#链接)
   - [运行](#运行)
   - [调试](#调试)
+  - [深入了解 RISC-V 指令集及工作原理](#深入了解-risc-v-指令集及工作原理)
 - [编译和运行各章的代码](#编译和运行各章的代码)
   - [Chapter 1](#chapter-1)
   - [Chapter 2](#chapter-2)
@@ -35,7 +36,7 @@
 
 1. Rust
 2. Rust 的 `riscv64gc-unknown-none-elf` 编译目标
-3. Qemu 7.0
+3. QEMU 7.0
 4. RISC-V toolchains
 
 如果不想在当前系统上安装以上工具，也可以在 Docker 里搭建该开发环境。在 Docker 里编译和运行所有程序，教程学习完毕之后把该 Docker Image 删掉即可，对于当前系统来说就像什么事都没发生过一样。
@@ -73,6 +74,8 @@ $ echo 'export PATH=/opt/riscv/bin:$PATH' >> ~/.bashrc
 $ . ~/.bashrc
 ```
 
+![docker image](images/docker-image.jpg)
+
 ## RISC-V 指令和裸机汇编程序
 
 现在我们有 RISC-V 的编译工具以及运行和调试程序的模拟器 QEMU，现在可以写最原始的 `Hello World` 程序测试以下，所谓最原始的程序，是指在没有引导程序，没有操作系统的情况下，让机器直接执行指令，这种程序叫做 Bare-metal 程序（裸机程序）。
@@ -98,7 +101,7 @@ _start:
 下面命令将汇编源码汇编（动词）为目标文件：
 
 ```bash
-$ riscv64-unknown-elf-as -g -o first.o first.s
+$ riscv64-unknown-elf-as -g -o target/first.o first.s
 ```
 
 `g` 参数用于生成调试信息。
@@ -170,7 +173,7 @@ SECTIONS
 用下面的命令链接（动词）得出目标文件：
 
 ```bash
-$ riscv64-unknown-elf-ld -T default.lds -o first first.o
+$ riscv64-unknown-elf-ld -T default.lds -o target/first target/first.o
 ```
 
 ### 运行
@@ -182,16 +185,28 @@ $ qemu-system-riscv64 \
     -machine virt \
     -nographic \
     -bios none \
-    -kernel first
+    -kernel target/first
 ```
 
 应该能看到一个字符 `A` 输出。
+
+![bare metal](images/bare-metal.jpg)
 
 按 `Ctrl+a` 然后再按 `x` 退出 QEMU （温馨提示，退出 QEMU 不是按 `Ctrl+x`，也不是 `:q`）
 
 ### 调试
 
-在运行 QEMU 的命令后面加上 `-s -S` 能启动 GDB 调试服务端，打开另外一个终端窗口，运行下面命令进入 GDB 调试客户端
+在运行 QEMU 的命令后面加上 `-s -S` 能启动 GDB 调试服务端，
+
+```bash
+$ qemu-system-riscv64 \
+    -machine virt \
+    -nographic \
+    -bios none \
+    -kernel target/first -s -S
+```
+
+打开另外一个终端窗口，运行下面命令进入 GDB 调试客户端
 
 ```bash
 $ riscv64-elf-gdb
@@ -204,6 +219,8 @@ $ riscv64-elf-gdb
 - 命令 `x/10i $pc`
 
 查看 $pc 位置的 10 条指令，命令 `x` 用于查看内存
+
+![gdb](images/gdb.jpg)
 
 - 命令 `si`
 
@@ -257,13 +274,15 @@ $ riscv64-elf-gdb
 
 比起 QEMU，它们能够比较直观地显示程序、内存、寄存器的内容，甚至能够显示 RTL 级（寄存器级，可以简单地认为是数字电子电路） CPU 状态。有直观的工具辅助学习，往往可以事半功倍。
 
+![QtRvSim](images/qtrvsim.jpg)
+
 ## 编译和运行各章的代码
 
 > 以下内容请按顺序阅读和运行，即必须先完成第一章的每一个步骤，才能进入第二章，如此类推。
 
 在开始编译和运行各章的代码之前，首先切换到本项目的首层目录，然后你会看到诸如 `ch1`，`ch2`，`ch3` …… 等子目录，它们对应着各章的程序。
 
-如果你是 Docker 的开发环境，则运行命令：
+如果你是 Docker 的开发环境，进入本项目的首层目录后运行命令：
 
 ```bash
 docker run -it --rm \
@@ -275,6 +294,8 @@ docker run -it --rm \
 
 该命令会创建一个容器，进入之后是一个 Bash shell，切换到 `/mnt` 目录即可看到 `ch1`，`ch2` …… 等子目录，这时候跟在当前系统里直接搭建的开发环境是一致的。
 
+![docker environment](images/docker-env.jpg)
+
 ### Chapter 1
 
 1. 进入 `ch1` 目录
@@ -283,10 +304,16 @@ docker run -it --rm \
 
 > 这些脚本只是为了简化命令，大部分脚本的内容都是非常简单的。如果你想知道脚本里面具体执行了什么，可以用文本编辑器打开查看。
 
+![ch01-01](images/ch01-01.jpg)
+
 教程第一章里有一个使用 GDB 进入调试环境的环节，这个步骤可以跳过。如果你还是想完整体验完所有环节，则运行脚本 `start-debug-server` 开始调试的服务端，接下来则根据开发环境的不同而不同：
 
 * 对于在当前系统直接进行开发的，打开另一个终端窗口，然后在里面运行 `ch1` 目录当中的脚本 `start-debug-client-archlinux`。
 * 对于在 Docker 里面进行开发的，打开另一个终端窗口，然后在里面运行本项目首层目录当中的脚本 `join-docker`，进入到刚才的容器，切换到 `/mnt` 目录，然后进入 `ch1` 目录，再运行脚本 `start-debug-client-docker`。
+
+> 注：运行成功只是为了确认代码能符合预期地运行，但学习的目标并不是把所有章节的程序跑一遍，而是对照教程一遍看代码一边学习和理解，下同
+
+> 注：如果你完全不知道这章的内容在讲什么，建议在此暂停一下，你可能需要先补充一些预备的知识，这里推荐一些资料：《深入理解计算机系统/CS:APP3e》、《计算机组成与设计——硬件软件接口——RISCV版》、《UNIX 环境高级编程/APUE》、《Programming from the Ground Up: An Introduction to Programming using Linux Assembly Language》
 
 ### Chapter 2
 
@@ -297,6 +324,8 @@ docker run -it --rm \
 5. 返回上一级目录，进入 `os` 目录
 6. 运行脚本 `build-bin` 开始编译
 7. 运行脚本 `run` 运行程序，看到 `All applications completed!` 字样则表示成功。
+
+![ch02-01](images/ch02-01.jpg)
 
 ### Chapter 3
 

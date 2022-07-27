@@ -4,7 +4,7 @@
 
 1. Rust
 2. Rust 的 `riscv64gc-unknown-none-elf` 编译目标
-3. Qemu 7.0
+3. QEMU 7.0
 4. Risc-v toolchains
 
 在当前目录执行命令（或者执行目录当中的脚本 `build-image`）：
